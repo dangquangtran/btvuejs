@@ -1,11 +1,14 @@
 <template>
   <div class="abc">
     <div :class="project.status ? 'my-div' : 'my-div false'">
-      <p>{{ project.title }}</p>
+      <div>
+        <p>{{ project.title }}</p>
+        <p class="details">{{ project.details }}</p>
+      </div>
       <div>
         <i class="fa fa-trash" aria-hidden="true" @click="deleteProject"></i>
         <router-link :to="`/projects/${this.project.id}`">
-          <i class="fa fa-pencil" aria-hidden="true"></i>
+          <i class="fa fa-pencil" aria-hidden="true" @click="sendProject"></i>
         </router-link>
         <i
           class="fa-solid fa-check"
@@ -13,6 +16,9 @@
           @click="toggleStatus"
         ></i>
       </div>
+    </div>
+    <div class="my-div detail">
+      <p>{{ project.details }}</p>
     </div>
   </div>
 </template>
@@ -30,6 +36,9 @@ export default {
     },
     deleteProject() {
       this.$emit("delete-project", this.project.id);
+    },
+    sendProject() {
+      this.$store.dispatch("getProject", this.project.id);
     },
   },
 };
@@ -66,5 +75,13 @@ p {
 
 .my-div.false {
   border-left: 5px solid red;
+}
+
+.my-div.detail {
+  margin: 0;
+}
+
+.details {
+  height: 150px;
 }
 </style>

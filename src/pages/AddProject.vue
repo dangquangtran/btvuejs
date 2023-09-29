@@ -9,7 +9,6 @@
       <div class="form-group">
         <label for="detail">DETAIL</label>
         <textarea id="detail" rows="3" v-model="project.details"></textarea>
-        <div>{{ project.desc }}</div>
         <div style="text-align: left; display: block"></div>
       </div>
       <div class="form-group">
@@ -28,11 +27,15 @@ export default {
       project: {},
     };
   },
-  created() {
-    fetch("http://localhost:3000/projects/" + this.$route.params.id)
-      .then((response) => response.json())
-      .then((data) => (this.project = data))
-      .then(() => console.log(this.project));
+  methods: {
+    onSubmit() {
+      const newProject = {
+        title: this.project.title,
+        details: this.project.details,
+        status: false,
+      };
+      this.$store.dispatch("addProject", newProject);
+    },
   },
 };
 </script>

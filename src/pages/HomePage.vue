@@ -22,26 +22,6 @@ export default {
   },
   data() {
     return {
-      projects: [
-        {
-          id: 1,
-          title: "Create new homepage banner",
-          details: "abcd",
-          status: true,
-        },
-        {
-          id: 2,
-          title: "Make marketing email",
-          details: "abcd",
-          status: true,
-        },
-        {
-          id: 3,
-          title: "Update promo links",
-          details: "abcd",
-          status: false,
-        },
-      ],
       currentTab: "view-all",
     };
   },
@@ -64,15 +44,19 @@ export default {
   },
   computed: {
     filteredProjects() {
+      const projects = this.$store.state.projects;
       if (this.currentTab === "view-all") {
-        return this.projects;
+        return projects;
       } else if (this.currentTab === "completed") {
-        return this.projects.filter((project) => project.status === true);
+        return projects.filter((project) => project.status === true);
       } else if (this.currentTab === "ongoing") {
-        return this.projects.filter((project) => project.status === false);
+        return projects.filter((project) => project.status === false);
       }
-      return this.projects;
+      return projects;
     },
+  },
+  created() {
+    this.projects = this.$store.state.projects;
   },
 };
 </script>

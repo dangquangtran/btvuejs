@@ -9,13 +9,14 @@
       <div class="form-group">
         <label for="detail">DETAIL</label>
         <textarea id="detail" rows="3" v-model="project.details"></textarea>
-        <div>{{ project.desc }}</div>
         <div style="text-align: left; display: block"></div>
       </div>
       <div class="form-group">
-        <button type="submit" class="btn btn-primary" @click="onSubmit">
-          Add Project
-        </button>
+        <router-link to="/">
+          <button type="submit" class="btn btn-primary" @click="onSubmit">
+            Update Project
+          </button>
+        </router-link>
       </div>
     </form>
   </div>
@@ -29,10 +30,20 @@ export default {
     };
   },
   created() {
-    fetch("http://localhost:3000/projects/" + this.$route.params.id)
-      .then((response) => response.json())
-      .then((data) => (this.project = data))
-      .then(() => console.log(this.project));
+    this.project = this.$store.getters.getProject[0];
+  },
+  methods: {
+    onSubmit() {
+      const updateProject = {
+        id: this.project.id,
+        title: this.project.title,
+        details: this.project.details,
+        status: this.project.status,
+      };
+      console.log(updateProject);
+      console.log(this.$store.state.projects);
+      this.$store.dispatch("pushProject", updateProject);
+    },
   },
 };
 </script>
